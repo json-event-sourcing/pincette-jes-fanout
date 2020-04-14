@@ -6,7 +6,7 @@
 
   <groupId>net.pincette</groupId>
   <artifactId>pincette-jes-fanout</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <name>pincette-jes-fanout</name>
   <description>Fanout emitter for JSON Event Sourcing</description>
   <url>https://github.com/json-event-sourcing/pincette-jes-fanout</url>
@@ -51,7 +51,7 @@
     <dependency>
       <groupId>net.pincette</groupId>
       <artifactId>pincette-common</artifactId>
-      <version>1.6.7</version>
+      <version>1.6.8</version>
     </dependency>
     <dependency>
       <groupId>net.pincette</groupId>
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>net.pincette</groupId>
       <artifactId>pincette-jes-util</artifactId>
-      <version>1.1.4</version>
+      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.kafka</groupId>
@@ -81,7 +81,12 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.28</version>
+      <version>1.7.30</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
     </dependency>
   </dependencies>
 

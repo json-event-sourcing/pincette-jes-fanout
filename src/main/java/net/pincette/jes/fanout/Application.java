@@ -14,6 +14,8 @@ import static net.pincette.util.Util.tryToDoWithRethrow;
 import static net.pincette.util.Util.tryToGetSilent;
 
 import com.typesafe.config.Config;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.pincette.jes.util.JsonSerializer;
@@ -31,13 +33,18 @@ import org.apache.kafka.streams.Topology;
  */
 public class Application {
   private static final String ENVIRONMENT = "environment";
+  private static final String EXCLUDE = "exclude";
   private static final String KAFKA = "kafka";
   private static final String LOG_LEVEL = "logLevel";
   private static final String LOG_TOPIC = "logTopic";
   private static final String REALM_ID = "realmId";
   private static final String REALM_KEY = "realmKey";
   private static final String TOPICS = "topics";
-  private static final String VERSION = "1.0";
+  private static final String VERSION = "1.1";
+
+  private static Set<String> exclude(final Config config) {
+    return new HashSet<>(config.getStringList(EXCLUDE));
+  }
 
   public static void main(final String[] args) {
     final StreamsBuilder builder = new StreamsBuilder();
@@ -52,9 +59,10 @@ public class Application {
 
     logger.setLevel(logLevel);
 
-    config.getList(TOPICS).stream()
-        .map(value -> value.unwrapped().toString())
-        .forEach(topic -> connect(builder.stream(topic), realmId, realmKey, logger));
+    config
+        .getStringList(TOPICS)
+        .forEach(
+            topic -> connect(builder.stream(topic), exclude(config), realmId, realmKey, logger));
 
     tryToDoWithRethrow(
         () ->

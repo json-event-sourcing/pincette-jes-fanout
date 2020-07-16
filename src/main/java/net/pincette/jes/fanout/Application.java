@@ -40,7 +40,7 @@ public class Application {
   private static final String REALM_ID = "realmId";
   private static final String REALM_KEY = "realmKey";
   private static final String TOPICS = "topics";
-  private static final String VERSION = "1.1";
+  private static final String VERSION = "1.1.1";
 
   private static Set<String> exclude(final Config config) {
     return new HashSet<>(config.getStringList(EXCLUDE));

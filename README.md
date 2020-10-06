@@ -18,6 +18,7 @@ The configuration is managed by the
 |realmIn|The realm ID for the fanout.io service.|
 |realmKey|The realm key for the fanout.io service.|
 |topics|The list of Kafka topics from which messages should be propagated.|
+|topologyTopic|When that Kafka topic is set topology life cycle events will be sent to it.|
 
 ## Building and Running
 

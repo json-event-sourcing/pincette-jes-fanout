@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.pincette.jes.util.JsonSerializer;
 import net.pincette.jes.util.Streams;
+import net.pincette.jes.util.Streams.TopologyLifeCycleEmitter;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
@@ -40,7 +41,8 @@ public class Application {
   private static final String REALM_ID = "realmId";
   private static final String REALM_KEY = "realmKey";
   private static final String TOPICS = "topics";
-  private static final String VERSION = "1.1.1";
+  private static final String TOPOLOGY_TOPIC = "topologyTopic";
+  private static final String VERSION = "1.1.2";
 
   private static Set<String> exclude(final Config config) {
     return new HashSet<>(config.getStringList(EXCLUDE));
@@ -74,7 +76,12 @@ public class Application {
           log(logger, logLevel, VERSION, environment, producer, logTopic);
           logger.log(INFO, "Topology:\n\n {0}", topology.describe());
 
-          if (!start(topology, Streams.fromConfig(config, KAFKA))) {
+          if (!start(
+              topology,
+              Streams.fromConfig(config, KAFKA),
+              tryToGetSilent(() -> config.getString(TOPOLOGY_TOPIC))
+                  .map(topic -> new TopologyLifeCycleEmitter(topic, producer))
+                  .orElse(null))) {
             exit(1);
           }
         });
